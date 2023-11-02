@@ -152,10 +152,48 @@ on v.id = plv.videogame_id
 where r.rating > 3;
 
 7- Selezionare quali giochi erano presenti nei tornei nei quali hanno partecipato i giocatori il cui nome inizia per 'S' (474)
+select distinct v.id
+from tournaments t 
+join player_tournament pt 
+on t.id = pt.tournament_id 
+join players p 
+on pt.player_id = p.id
+join tournament_videogame tv 
+on t.id = tv.tournament_id 
+join videogames v 
+on tv.videogame_id = v.id 
+where p.name like 's%'
 
 8- Selezionare le città in cui è stato giocato il gioco dell'anno del 2018 (36)
+select distinct t.city 
+from awards a 
+join award_videogame av 
+on a.id = av.award_id 
+join videogames v 
+on av.videogame_id = v.id
+join tournament_videogame tv 
+on v.id = tv.videogame_id 
+join tournaments t 
+on tv.tournament_id = t.id 
+where av.year = '2018';
 
 9- Selezionare i giocatori che hanno giocato al gioco più atteso del 2018 in un torneo del 2019 (3306)
+select *
+from videogames v 
+join award_videogame av 
+on v.id = av.videogame_id 
+join awards a 
+on av.award_id = a.id 
+join tournament_videogame tv 
+on v.id = tv.videogame_id 
+join tournaments t 
+on tv.tournament_id = t.id
+join player_tournament pt 
+on t.id = pt.tournament_id 
+join players p 
+on pt.player_id = p.id
+where a.name like 'Gioco più atteso' and av.year like '2018' and t.year = '2019'
+
 
 
 *********** BONUS ***********
